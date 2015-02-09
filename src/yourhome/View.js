@@ -5,7 +5,7 @@ Yourhome.View = (function () {
         infoboard = [];
 
         init = function () {
-            left = $('#left-area');
+            left = $('#steuerunglinks');
             middle = $('#middle-area');
             _loadInfoboard();
             return that;
@@ -30,6 +30,7 @@ Yourhome.View = (function () {
                 submit = document.createElement("button"),
                 input = document.createElement("input");
             submit.innerHTML = "OK";
+            input.autofocus = "true";
             submit.onclick = function(){
                 _submitInfoEntry(input);
             };

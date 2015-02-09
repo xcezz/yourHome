@@ -4,9 +4,11 @@ Yourhome.Model = (function () {
         calendar,
         account,
         stock,
+        tasks,
         homedata = {
             "infoboard": infoboard,
             "calendar": calendar,
+            "tasks": tasks,
             "account": account,
             "stock": stock
         },
@@ -18,7 +20,7 @@ Yourhome.Model = (function () {
         
         _initEvents = function(){
             $('body').on('infoboardChanged',function(data){
-                infoboard = data;
+                homedata.infoboard = data;
                 console.log(homedata);
             });
         };
