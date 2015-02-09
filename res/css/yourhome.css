@@ -6,8 +6,11 @@ header, nav, footer, aside, section {
     display: block;
 }
 header {
+    width: 1000px;
+    margin: 0 auto;
     background-image: url(../assets/header.png);
-    height: 100px;
+    height: 125px;
+    
 }
 header p {
     text-align: center;
@@ -18,7 +21,7 @@ header p {
     color: white;
 }
 #wrapper {
-    width: 900px;
+    width: 1000px;
     margin: 0 auto;
     text-align: left;
     background-image: url(../assets/background.png);
@@ -36,7 +39,7 @@ header p {
 }
 #steuerungoben a {
     display: block;
-    width: 180px;
+    width: 200px;
     float: left;
     text-align: center;
     color: white;
@@ -90,6 +93,8 @@ section {
     margin-right: 250px;
 }
 footer {
+    padding-top: 5px;
+    padding-bottom: 5px;
     background-image: url(../assets/grey.png);
     color: white;
     text-align: center;
