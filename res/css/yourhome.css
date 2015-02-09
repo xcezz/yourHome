@@ -1,0 +1,20 @@
+#title {
+    text-align: center;
+}
+
+#mainfeatures {
+    width: 100%;
+}
+
+#main-area {
+    width:100%;
+}
+
+.mainfeatures-list {
+    background-color: #32CD32;
+    list-style-type: none;
+}
+
+.mainfeatures-listitem {
+    display: inline;
+}
