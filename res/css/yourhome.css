@@ -36,9 +36,10 @@ header p {
 }
 #steuerungoben a {
     display: block;
-    width: 230px;
+    width: 180px;
     float: left;
     text-align: center;
+    color: white;
     line-height: 24px;
 }
 #steuerunglinks {
