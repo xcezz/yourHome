@@ -42,7 +42,7 @@ Yourhome.View = (function () {
             
         _submitInfoEntry = function(input){
             infoboard.push(input.value);
-            $('body').trigger('infoboardChanged',infoboard);
+            $('body').trigger('infoboardChanged',{"infoboard":infoboard});
             _renderInfoboard();
         },
             
