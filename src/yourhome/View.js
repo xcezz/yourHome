@@ -41,6 +41,7 @@ Yourhome.View = (function () {
             
         _submitInfoEntry = function(input){
             infoboard.push(input.value);
+            $('body').trigger('infoboardChanged',infoboard);
             _renderInfoboard();
         },
             
