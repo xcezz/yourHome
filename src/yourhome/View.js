@@ -64,13 +64,13 @@ Yourhome.View = (function () {
         _submitInfoEntry = function(input){    
             var TESTIMG = new Image();
             TESTIMG.src = "res/assets/avatar.png";
-            TESTIMG.className = "userimage";
             var infoboardEntry = {"feature":"inforboard",
                                   "user-img":TESTIMG,
                                   "input-text":input.value,
                                   "user-name":"hello",
                                  "date": "1.1.111!"};
             infoboard.push(infoboardEntry);
+            
             $('body').trigger('infoboardChanged',{"infoboard":infoboard});
             _renderInfoboard();
         },
@@ -86,10 +86,11 @@ Yourhome.View = (function () {
             var el = {"inputText":element["input-text"],
                       "inputUser":element["user-name"],
                       "inputDate":element["date"],
-                      "inputImg":["user-img"]
+                      "imgSrc":element["user-img"].src
                      },
                 container,
                 compiled = _.template($(template).html());
+            console.log(element["user-img"]);
             container = $(compiled(el));
             return container;
         };
