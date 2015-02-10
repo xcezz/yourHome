@@ -30,11 +30,13 @@
 </nav>
 
 <nav id="steuerunglinks">
-  <ul>
-    <li><a>Sort by:</a>
-      <ul id="sort-options"/>
+    <li>
+        <ul>
+            <li><a>Anzeigen:</a>
+                <ul id="sort-options"/>
+            </li>
+        </ul>
     </li>
-  </ul>
 </nav>
 
 <aside id="steuerungrechts">
@@ -62,6 +64,10 @@
     
     <script src="libs/jquery-2.1.1.js"></script>
     <script src="libs/underscore.js"></script>
+    
+    <script id="checkboxTemplate" type="text/template">
+            <li><input type="checkbox" name = "<%= lable %>" checked> <%= lable %></li>
+    </script>
     
     <script id="infoboardTemplate" type="text/template">
     <form class="form">

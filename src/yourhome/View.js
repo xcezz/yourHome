@@ -3,10 +3,12 @@ Yourhome.View = (function () {
         left,
         middle,
         infoTemplate,
+        checkboxTemplate,
         infoboard = [];
 
         init = function () {
-            template = document.getElementById('infoboardTemplate');
+            infoTemplate = document.getElementById('infoboardTemplate');
+            checkboxTemplate = document.getElementById('checkboxTemplate');
             left = $('#steuerunglinks');
             middle = $('#steuerungmitte');
             _loadSortItems();
@@ -16,15 +18,13 @@ Yourhome.View = (function () {
             
         _loadSortItems = function(){
             var sort = left.find("#sort-options"),
-                sortItems = ["Alle anzeigen", "Aufgaben", "usw"];
+                sortItems = ["Alle anzeigen", "Nachrichten", "Aufgaben", "Kalender", "Vorräte"];
             _.each(sortItems, function(element){
-                var sortlistItem = document.createElement("li"),
-                    checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.setAttribute("checked",true);
-                sortlistItem.appendChild(checkbox);
-                sortlistItem.innerHTML += " " + element;
-                sort.append(sortlistItem);
+                var el = {"lable":element},
+                    container,
+                    compiled = _.template($(checkboxTemplate).html());
+                container = $(compiled(el));
+                sort.append(container);
             });
         },
             
@@ -67,8 +67,8 @@ Yourhome.View = (function () {
             var infoboardEntry = {"feature":"inforboard",
                                   "user-img":TESTIMG,
                                   "input-text":input.value,
-                                  "user-name":"hello",
-                                 "date": "1.1.111!"};
+                                  "user-name":"Muster Maxmann",
+                                 "date": "20.2.2015"};
             infoboard.push(infoboardEntry);
             
             $('body').trigger('infoboardChanged',{"infoboard":infoboard});
@@ -89,8 +89,7 @@ Yourhome.View = (function () {
                       "imgSrc":element["user-img"].src
                      },
                 container,
-                compiled = _.template($(template).html());
-            console.log(element["user-img"]);
+                compiled = _.template($(infoboardTemplate).html());
             container = $(compiled(el));
             return container;
         };

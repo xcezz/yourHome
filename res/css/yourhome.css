@@ -48,6 +48,7 @@ header p {
 #steuerunglinks {
     width: 220px;
     float: left;
+    list-style-type: none;
 }
 #steuerunglinks ul {
     padding-top: 20px;
