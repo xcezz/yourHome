@@ -2,11 +2,13 @@ Yourhome.View = (function () {
     var that = {},
         left,
         middle,
+        infoTemplate,
         infoboard = [];
 
         init = function () {
+            template = document.getElementById('infoboardTemplate');
             left = $('#steuerunglinks');
-            middle = $('#middle-area');
+            middle = $('#steuerungmitte');
             _loadSortItems();
             _loadInfoboard();
             return that;
@@ -61,7 +63,8 @@ Yourhome.View = (function () {
             
         _submitInfoEntry = function(input){    
             var TESTIMG = new Image();
-            TESTIMG.src = "res/assets/grey.png";
+            TESTIMG.src = "res/assets/avatar.png";
+            TESTIMG.className = "userimage";
             var infoboardEntry = {"feature":"inforboard",
                                   "user-img":TESTIMG,
                                   "input-text":input.value,
@@ -80,18 +83,14 @@ Yourhome.View = (function () {
         },
         
         _infoContainer = function(element){
-            var container = document.createElement("div"),
-                inputText = document.createElement("text"),
-                inputName = document.createElement("text"),
-                inputDate = document.createElement("text");
-            inputText.innerHTML = element["input-text"];
-            inputName.innerHTML = element["user-name"];
-            inputDate.innerHTML = element["date"];
-            container.className = "infoboard-entry";
-            container.appendChild(element["user-img"]);
-            container.appendChild(inputText);
-            container.appendChild(inputName);
-            container.appendChild(inputDate);
+            var el = {"inputText":element["input-text"],
+                      "inputUser":element["user-name"],
+                      "inputDate":element["date"],
+                      "inputImg":["user-img"]
+                     },
+                container,
+                compiled = _.template($(template).html());
+            container = $(compiled(el));
             return container;
         };
 
