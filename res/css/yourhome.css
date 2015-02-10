@@ -57,6 +57,8 @@ header p {
 #steuerunglinks li {
     padding-bottom: 0.5em;
 }
+#middle-area {
+}
 body {
     text-align: center;
     background-image: url(../assets/texture.png);
