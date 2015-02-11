@@ -1,8 +1,9 @@
 var Yourhome = {
     
     init: function () {
-        Yourhome.Model.init();
+        Yourhome.Controller.init();
         Yourhome.View.init();
+        Yourhome.Model.init();
     }
     
 }

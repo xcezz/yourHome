@@ -17,7 +17,21 @@ Yourhome.Controller = (function () {
         },
         
         _initEvents = function(){
-            
+            infoboard.onclick = function(){
+                $(Yourhome).trigger('featureClicked',{"feature":"infoboard"});
+            };
+            calendar.onclick = function(){
+                $(Yourhome).trigger('featureClicked',{"feature":"calendar"});
+            };
+            account.onclick = function(){
+                $(Yourhome).trigger('featureClicked',{"feature":"account"});
+            };
+            stock.onclick = function(){
+                $(Yourhome).trigger('featureClicked',{"feature":"stock"});
+            };
+            tasks.onclick = function(){
+                $(Yourhome).trigger('featureClicked',{"feature":"tasks"});
+            };
         };
 
     that.init = init;

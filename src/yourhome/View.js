@@ -6,7 +6,7 @@ Yourhome.View = (function () {
         infoTemplate,
         newInfoTemplate,
         checkboxTemplate,
-        infoboard = [],
+        renderdata,
 
         init = function () {
             infoTemplate = document.getElementById('infoboardTemplate');
@@ -16,31 +16,45 @@ Yourhome.View = (function () {
             middle = $('#steuerungmitte');
             right = $('#steuerungrechts');
             _initEvents();
-            _loadLeftBar();
-            _loadMiddleBar();
-            _loadRightBar();
             return that;
         },
-            
+        
+                    
         _initEvents = function(){
             $(Yourhome).on('submitInfoEntry',_submitInfoEntry);
+            $(Yourhome).on('render', function(event,data){
+                renderdata = data;
+                _render();
+            });
         },
-            
-        _loadRightBar = function(){
-            var housemates = ["Markus", "Christian"],
-                entry = "<p><b>Mitbewohner:</b></p>";
-            _.each(housemates, function(element){
+        
+        _render = function(){
+            _renderLeftBar();
+            _renderMiddleBar();
+            _renderRightBar();
+        },
+        
+        _renderMiddleBar = function(){
+            middle.empty();
+            _.each(renderdata.middle, function(element){
+                middle.append(_infoContainer(element));
+            });
+        },
+        
+        _renderRightBar = function(){
+            right.empty();
+            var entry = "<p><b>Mitbewohner:</b></p>";
+            _.each(renderdata.right, function(element){
                 entry += "<p>"+element+"<p>";
             });
             right.html(entry);
         },
-            
-        _loadLeftBar = function(){
+        
+        _renderLeftBar = function(){
             _createAddButton();
-            var sort = left.find("#sort-options"),
-                sortItems = ["Alle anzeigen", "Nachrichten", "Aufgaben", "Kalender", "Vorräte"];
+            var sort = left.find("#sort-options");
             sort.empty();
-            _.each(sortItems, function(element){
+            _.each(renderdata.left, function(element){
                 var el = {"lable":element},
                     container,
                     compiled = _.template($(checkboxTemplate).html());
@@ -48,15 +62,15 @@ Yourhome.View = (function () {
                 sort.append(container);
             });
         },
-            
+
         _onCheckedChange = function(){
         },
         
-        _loadMiddleBar = function(){        
-            _renderInfoboard();
-        },
-            
-        _createAddButton = function(){
+        _createAddButton = function(){ 
+            var old = left.find("button");
+            if(old!=undefined){
+                old.remove();
+            }
             var but = document.createElement("button");
             but.innerHTML = "Neuer Eintrag";
             but.className = "button-newentry";
@@ -86,16 +100,9 @@ Yourhome.View = (function () {
                                   "input-text":input.value,
                                   "user-name":"Muster Maxmann",
                                  "date": today};
-            infoboard.unshift(infoboardEntry);
-            $(Yourhome).trigger('infoboardChanged',{"infoboard":infoboard});
-            _renderInfoboard();
-        },
-            
-        _renderInfoboard = function(){
-            middle.empty();
-            _.each(infoboard, function(element){
-                middle.append(_infoContainer(element));
-            });
+            renderdata.middle.unshift(infoboardEntry);
+            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"middle":renderdata.middle});
+            _renderMiddleBar();
         },
         
         _infoContainer = function(element){
