@@ -58,13 +58,21 @@
     </script>
     
     <script id="infoboardTemplate" type="text/template">
-    <form class="form">
-                    <img src=<%= imgSrc %> alt="Placeholder" class="userimage">
-                    <p><span class="userinput"><%= inputText %></span></p>
-                    <br>
-					<h1><span class="username"><%= inputUser %></span> <span class="post-date"><%= inputDate %></span></h1>
-
-				</form>
+        <form class="form">
+                <img src=<%= imgSrc %> alt="Placeholder" class="userimage">
+                <p><span class="userinput"><%= inputText %></span></p>
+                <br>
+				<h1><span class="username"><%= inputUser %></span> <span class="post-date"><%= inputDate %></span></h1>
+        </form>
+    </script>
+    
+    <script id="newInfoboardEntryTemplate" type="text/template">
+        <form class="form">
+            <h2><span class="update-status">Update status</span> <span class="upload-image">Upload image</span></h2>
+            <br>
+            <textarea cols="78" rows="10" id="message" class="message" placeholder=" What's on your mind?"></textarea>
+            <input type="button" name="submit" value="Post" class="submit" onclick = <%= onclickFunction %>>
+        </form>
     </script>
     
     <script src="src/yourhome/Yourhome.js"></script>

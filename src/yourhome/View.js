@@ -4,12 +4,14 @@ Yourhome.View = (function () {
         middle,
         right,
         infoTemplate,
+        newInfoTemplate,
         checkboxTemplate,
         infoboard = [];
 
         init = function () {
             infoTemplate = document.getElementById('infoboardTemplate');
             checkboxTemplate = document.getElementById('checkboxTemplate');
+            newInfoTemplate = document.getElementById('newInfoboardEntryTemplate');
             left = $('#steuerunglinks');
             middle = $('#steuerungmitte');
             right = $('#steuerungrechts');
@@ -58,24 +60,19 @@ Yourhome.View = (function () {
             left.prepend(but);
         },
     
-        _newInfoEntry = function(){
-            var entry = document.createElement("div"),
-                submit = document.createElement("button"),
-                input = document.createElement("input");
-            submit.innerHTML = "OK";
-            input.autofocus = "true";
-            input.className = "Infoboard-New-Entry";
-            submit.onclick = function(){
-                _submitInfoEntry(input);
-            };
-            entry.appendChild(input);
-            entry.appendChild(submit);
-            middle.prepend(entry);
-            
+        _newInfoEntry = function(){       
+            var newEntry = {"onclickFunction": "_submitInfoEntry()"},
+                container,
+                compiled = _.template($(newInfoTemplate).html());
+            container = $(compiled(newEntry));
+            middle.prepend(container);
+            middle.find("textarea")[0].focus();           
         },
             
-        _submitInfoEntry = function(input){    
-            var TESTIMG = new Image();
+        _submitInfoEntry = function(){
+            var TESTIMG = new Image(),
+                input;
+            input = middle.find("textarea")[0];
             TESTIMG.src = "res/assets/avatar.png";
             var infoboardEntry = {"feature":"inforboard",
                                   "user-img":TESTIMG,
@@ -83,7 +80,6 @@ Yourhome.View = (function () {
                                   "user-name":"Muster Maxmann",
                                  "date": "20.2.2015"};
             infoboard.unshift(infoboardEntry);
-            
             $('body').trigger('infoboardChanged',{"infoboard":infoboard});
             _renderInfoboard();
         },
