@@ -6,7 +6,7 @@ Yourhome.View = (function () {
         infoTemplate,
         newInfoTemplate,
         checkboxTemplate,
-        infoboard = [];
+        infoboard = [],
 
         init = function () {
             infoTemplate = document.getElementById('infoboardTemplate');
@@ -15,10 +15,15 @@ Yourhome.View = (function () {
             left = $('#steuerunglinks');
             middle = $('#steuerungmitte');
             right = $('#steuerungrechts');
+            _initEvents();
             _loadLeftBar();
             _loadMiddleBar();
             _loadRightBar();
             return that;
+        },
+            
+        _initEvents = function(){
+            $(Yourhome).on('submitInfoEntry',_submitInfoEntry);
         },
             
         _loadRightBar = function(){
@@ -54,6 +59,7 @@ Yourhome.View = (function () {
         _createAddButton = function(){
             var but = document.createElement("button");
             but.innerHTML = "Neuer Eintrag";
+            but.className = "button-newentry";
             but.onclick = function(){
                 _newInfoEntry();
             };
@@ -61,7 +67,7 @@ Yourhome.View = (function () {
         },
     
         _newInfoEntry = function(){       
-            var newEntry = {"onclickFunction": "_submitInfoEntry()"},
+            var newEntry = {"onclickFunction": "$(Yourhome).trigger('submitInfoEntry')"},
                 container,
                 compiled = _.template($(newInfoTemplate).html());
             container = $(compiled(newEntry));
@@ -80,7 +86,7 @@ Yourhome.View = (function () {
                                   "user-name":"Muster Maxmann",
                                  "date": "20.2.2015"};
             infoboard.unshift(infoboardEntry);
-            $('body').trigger('infoboardChanged',{"infoboard":infoboard});
+            $(Yourhome).trigger('infoboardChanged',{"infoboard":infoboard});
             _renderInfoboard();
         },
             

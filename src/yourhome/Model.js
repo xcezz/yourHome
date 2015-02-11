@@ -19,7 +19,7 @@ Yourhome.Model = (function () {
         },
         
         _initEvents = function(){
-            $('body').on('infoboardChanged',function(event, data){
+            $(Yourhome).on('infoboardChanged',function(event, data){
                 homedata.infoboard = data.infoboard;
             });
         };
