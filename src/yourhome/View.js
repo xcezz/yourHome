@@ -2,6 +2,7 @@ Yourhome.View = (function () {
     var that = {},
         left,
         middle,
+        right,
         infoTemplate,
         checkboxTemplate,
         infoboard = [];
@@ -11,14 +12,27 @@ Yourhome.View = (function () {
             checkboxTemplate = document.getElementById('checkboxTemplate');
             left = $('#steuerunglinks');
             middle = $('#steuerungmitte');
-            _loadSortItems();
-            _loadInfoboard();
+            right = $('#steuerungrechts');
+            _loadLeftBar();
+            _loadMiddleBar();
+            _loadRightBar();
             return that;
         },
             
-        _loadSortItems = function(){
+        _loadRightBar = function(){
+            var housemates = ["Markus", "Christian"],
+                entry = "<p><b>Mitbewohner:</b></p>";
+            _.each(housemates, function(element){
+                entry += "<p>"+element+"<p>";
+            });
+            right.html(entry);
+        },
+            
+        _loadLeftBar = function(){
+            _createAddButton();
             var sort = left.find("#sort-options"),
                 sortItems = ["Alle anzeigen", "Nachrichten", "Aufgaben", "Kalender", "Vorräte"];
+            sort.empty();
             _.each(sortItems, function(element){
                 var el = {"lable":element},
                     container,
@@ -31,8 +45,7 @@ Yourhome.View = (function () {
         _onCheckedChange = function(){
         },
         
-        _loadInfoboard = function(){
-            _createAddButton();          
+        _loadMiddleBar = function(){        
             _renderInfoboard();
         },
             
@@ -42,7 +55,7 @@ Yourhome.View = (function () {
             but.onclick = function(){
                 _newInfoEntry();
             };
-            left.append(but);
+            left.prepend(but);
         },
     
         _newInfoEntry = function(){
@@ -57,7 +70,7 @@ Yourhome.View = (function () {
             };
             entry.appendChild(input);
             entry.appendChild(submit);
-            middle.append(entry);
+            middle.prepend(entry);
             
         },
             
@@ -69,7 +82,7 @@ Yourhome.View = (function () {
                                   "input-text":input.value,
                                   "user-name":"Muster Maxmann",
                                  "date": "20.2.2015"};
-            infoboard.push(infoboardEntry);
+            infoboard.unshift(infoboardEntry);
             
             $('body').trigger('infoboardChanged',{"infoboard":infoboard});
             _renderInfoboard();
