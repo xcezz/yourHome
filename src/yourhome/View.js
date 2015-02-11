@@ -77,6 +77,7 @@ Yourhome.View = (function () {
             
         _submitInfoEntry = function(){
             var TESTIMG = new Image(),
+                today = Helper.today(),
                 input;
             input = middle.find("textarea")[0];
             TESTIMG.src = "res/assets/avatar.png";
@@ -84,7 +85,7 @@ Yourhome.View = (function () {
                                   "user-img":TESTIMG,
                                   "input-text":input.value,
                                   "user-name":"Muster Maxmann",
-                                 "date": "20.2.2015"};
+                                 "date": today};
             infoboard.unshift(infoboardEntry);
             $(Yourhome).trigger('infoboardChanged',{"infoboard":infoboard});
             _renderInfoboard();
