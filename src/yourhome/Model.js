@@ -14,11 +14,14 @@ Yourhome.Model = (function () {
         },
 
         init = function () {
-            homedata.infoboard = {"feature":"infoboard","right":["Markus","Christian"],"middle":[],"left":["Alle anzeigen", "Nachrichten", "Aufgaben", "Kalender", "Vorräte"]};
-            homedata.calendar = {"feature":"calendar","right":[],"middle":[],"left":[]};
-            homedata.account = {"feature":"account","right":[],"middle":[],"left":[]};
-            homedata.stock = {"feature":"stock","right":[],"middle":[],"left":[]};
-            homedata.tasks = {"feature":"tasks","right":[],"middle":[],"left":[]};
+            _.each(_.keys(homedata), function(element){
+                homedata[element] = {
+                    "feature": element, 
+                    "right": Helper.getShortInfo(element), 
+                    "middle":[],
+                    "left": Helper.getSortList(element)
+                };
+            });
             _initEvents();
             $(Yourhome).trigger('render', homedata.infoboard);
             return that;

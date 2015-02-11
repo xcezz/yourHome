@@ -43,8 +43,8 @@ Yourhome.View = (function () {
         
         _renderRightBar = function(){
             right.empty();
-            var entry = "<p><b>Mitbewohner:</b></p>";
-            _.each(renderdata.right, function(element){
+            var entry = "<p><b>" + _.first(renderdata.right) + "</b></p>";
+            _.each(_.last(renderdata.right, _.size(renderdata.right)-1), function(element){
                 entry += "<p>"+element+"<p>";
             });
             right.html(entry);
