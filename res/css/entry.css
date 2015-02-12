@@ -82,6 +82,44 @@ body {
     float: right;
 }
 
+.form a {
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 0px;
+    text-shadow: 0 2px 0 rgba(255,255,255,0.8);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.form .item {
+    font-size: 26px;
+    font-weight: bold;
+    padding-bottom: 20px;
+    text-shadow: 0 2px 0 rgba(255,255,255,0.8);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.8);
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+
+}
+
+.form .dreieck {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 25px solid green;
+    transform: rotate(-45deg);
+    transition: border-bottom 1s;
+
+}
+
+.form .dreieck:hover {
+    color: red;
+    transition: all 1s ease;
+    transform: translate(360px, 55px) rotate(135deg);
+    border-bottom: 25px solid red;
+
+}
 #message {
     height: 62px;
     max-height: 62px;
