@@ -22,6 +22,7 @@ Yourhome.Model = (function () {
                     "left": Helper.getSortList(element)
                 };
             });
+            homedata.calendar.middle[0] = true;
             _initEvents();
             $(Yourhome).trigger('render', homedata.infoboard);
             return that;

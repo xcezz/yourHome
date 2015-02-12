@@ -7,6 +7,7 @@ Yourhome.View = (function () {
         newInfoTemplate,
         checkboxTemplate,
         renderdata,
+        i = 0;
 
         init = function () {
             infoTemplate = document.getElementById('infoboardTemplate');
@@ -36,8 +37,30 @@ Yourhome.View = (function () {
         
         _renderMiddleBar = function(){
             middle.empty();
+            if(renderdata.middle[0]){
+                _createCalendar();
+            }else{
             _.each(renderdata.middle, function(element){
                 middle.append(_infoContainer(element));
+            });
+            }
+        },
+        
+        _createCalendar = function(){
+            var cal = document.createElement("div");
+            cal.id = "calendarMiddle";
+            middle.append(cal);
+            var fc = $('#calendarMiddle');
+            fc.fullCalendar({
+                dayClick: function(date, allDay, jsEvent, view){
+                    i+=1;
+                    fc.fullCalendar('renderEvent', {title:"Neuer Eintrag"+i, start: date, allDay:true, info:"hello"+i}, true);
+                },
+    
+                eventClick: function(calEvent, jsEvent, view) {
+                    renderdata.right.push(calEvent.title+"<br>"+calEvent.info+"</br>");
+                    _renderRightBar();
+                }
             });
         },
         
