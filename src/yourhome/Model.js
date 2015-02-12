@@ -32,9 +32,11 @@ Yourhome.Model = (function () {
                 var featureClicked = homedata[data.feature];
                 $(Yourhome).trigger('render', featureClicked);
             });
+            
             $(Yourhome).on('middleContentChanged',function(event, data){
                 homedata[data.feature].middle = data.middle;
             });
+            
             $(Yourhome).on('newCalendarEntry',function(event, data){
                 var TESTIMG = new Image(),
                     infoboardEntry = {
@@ -45,6 +47,14 @@ Yourhome.Model = (function () {
                         "date": Helper.today()};
                 TESTIMG.src = "res/assets/avatar.png";
                 homedata.infoboard.middle.unshift(infoboardEntry);
+            });
+            
+            $(Yourhome).on('sortBoxChange',function(event, element){
+                _.each(homedata[element.feature].left,function(el){
+                    if(el.option===element.option){
+                        el.checked = element.checked;
+                    }
+                });                    
             });
         };
 

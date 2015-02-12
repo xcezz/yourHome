@@ -92,10 +92,24 @@ Yourhome.View = (function () {
             var sort = left.find("#sort-options");
             sort.empty();
             _.each(renderdata.left, function(element){
-                var el = {"lable":element},
+                var el = {"lable":element.title,
+                         "option":element.option},
                     container,
                     compiled = _.template($(checkboxTemplate).html());
                 container = $(compiled(el));
+                var checkbox = container.find('input')[0];
+                if(element.checked === undefined){
+                    checkbox.checked = true;
+                }else{
+                    checkbox.checked = element.checked;
+                }
+                container.on('change',function(){
+                    $(Yourhome).trigger('sortBoxChange',{"feature":renderdata.feature, 
+                                                         "option":container.attr('option'), 
+                                                         "checked":checkbox.checked
+                                                        }
+                                       );
+                });
                 sort.append(container);
             });
         },

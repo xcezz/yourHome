@@ -32,11 +32,22 @@ const Helper = (function () {
         
         _getSortList = function(feature){
             var sortList = {
-                "infoboard":["Alles anzeigen", "Nachrichten", "Aufgaben", "Kalender", "Vorräte"],
-                "calendar":["Alles anzeigen", "Eigene", "Gemeinschaft"],
-                "account":["Alles anzeigen", "Bezahlt", "Nicht bezahlt"],
-                "stock":["Alles anzeigen", "Vorhanden", "Nicht Vorhanden"],
-                "tasks":["Alles anzeigen", "Eigene", "Nicht eigene", "Erledigte", "Nicht erledigte"]
+                "infoboard":[{title:"Alles anzeigen", option:"all"},
+                             {title:"Nachrichten", option:"infoboard"},
+                             {title:"Aufgaben", option:"tasks"},
+                             {title:"Kalender", option:"calendar"},
+                             {title:"Vorräte", option:"stock"}],
+                "account":[{title:"Alles anzeigen", option:"all"},
+                             {title:"Bezahlt", option:"done"},
+                             {title:"Nicht bezahlt", option:"notDone"}],
+                "stock":[{title:"Alles anzeigen", option:"all"},
+                             {title:"Vorhanden", option:"inStock"},
+                             {title:"Nicht vorhanden", option:"notInStock"}],
+                "tasks":[{title:"Alles anzeigen", option:"all"},
+                             {title:"Eigene", option:"private"},
+                             {title:"Nicht eigene", option:"notPrivate"},
+                             {title:"Erledigte", option:"done"},
+                             {title:"Nicht erledigte", option:"notDone"}]
             };
             return sortList[feature];
         };
