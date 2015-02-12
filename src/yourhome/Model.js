@@ -22,7 +22,6 @@ Yourhome.Model = (function () {
                     "left": Helper.getSortList(element)
                 };
             });
-            homedata.calendar.middle[0] = true;
             _initEvents();
             $(Yourhome).trigger('render', homedata.infoboard);
             return that;
@@ -35,6 +34,17 @@ Yourhome.Model = (function () {
             });
             $(Yourhome).on('middleContentChanged',function(event, data){
                 homedata[data.feature].middle = data.middle;
+            });
+            $(Yourhome).on('newCalendarEntry',function(event, data){
+                var TESTIMG = new Image(),
+                    infoboardEntry = {
+                        "feature":data.feature,
+                        "user-img":TESTIMG,
+                        "input-text":data.entry.title + new Date(data.entry.info),
+                        "user-name":"Kalender Eintrag",
+                        "date": Helper.today()};
+                TESTIMG.src = "res/assets/avatar.png";
+                homedata.infoboard.middle.unshift(infoboardEntry);
             });
         };
 

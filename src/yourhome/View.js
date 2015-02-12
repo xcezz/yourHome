@@ -7,19 +7,24 @@ Yourhome.View = (function () {
         newInfoTemplate,
         checkboxTemplate,
         renderdata,
-        i = 0;
+        calendar,
 
         init = function () {
+            _initElements();
+            _initEvents();
+            return that;
+        },
+        
+        _initElements = function(){
             infoTemplate = document.getElementById('infoboardTemplate');
             checkboxTemplate = document.getElementById('checkboxTemplate');
             newInfoTemplate = document.getElementById('newInfoboardEntryTemplate');
             left = $('#steuerunglinks');
             middle = $('#steuerungmitte');
             right = $('#steuerungrechts');
-            _initEvents();
-            return that;
+            _createCalendar();
+           
         },
-        
                     
         _initEvents = function(){
             $(Yourhome).on('submitInfoEntry',_submitInfoEntry);
@@ -37,8 +42,10 @@ Yourhome.View = (function () {
         
         _renderMiddleBar = function(){
             middle.empty();
-            if(renderdata.middle[0]){
-                _createCalendar();
+            if(renderdata.feature=="calendar"){
+                middle.append(calendar);
+                calendar.innerHTML = "";
+                _getCalendar();
             }else{
             _.each(renderdata.middle, function(element){
                 middle.append(_infoContainer(element));
@@ -46,15 +53,14 @@ Yourhome.View = (function () {
             }
         },
         
-        _createCalendar = function(){
-            var cal = document.createElement("div");
-            cal.id = "calendarMiddle";
-            middle.append(cal);
-            var fc = $('#calendarMiddle');
-            fc.fullCalendar({
+        _getCalendar = function(){
+            $(calendar).fullCalendar({
                 dayClick: function(date, allDay, jsEvent, view){
-                    i+=1;
-                    fc.fullCalendar('renderEvent', {title:"Neuer Eintrag"+i, start: date, allDay:true, info:"hello"+i}, true);
+                    var calendarEntry = {title:"Neuer Eintrag", start: date, allDay:true, info:date};
+                    $(calendar).fullCalendar('renderEvent', calendarEntry, true);
+                    renderdata.middle.push(calendarEntry);
+                    $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"middle":renderdata.middle});
+                    $(Yourhome).trigger('newCalendarEntry',{"feature":renderdata.feature,"entry":calendarEntry});
                 },
     
                 eventClick: function(calEvent, jsEvent, view) {
@@ -62,6 +68,14 @@ Yourhome.View = (function () {
                     _renderRightBar();
                 }
             });
+            _.each(renderdata.middle, function(element){
+                $(calendar).fullCalendar('renderEvent', {title:element.title, start: element.start, allDay:element.allDay, info:element.info}, true);
+            });
+        },
+        
+        _createCalendar = function(){
+            calendar = document.createElement("div");
+            calendar.id = "calendarMiddle";
         },
         
         _renderRightBar = function(){
