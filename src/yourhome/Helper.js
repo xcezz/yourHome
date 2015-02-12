@@ -19,6 +19,13 @@ const Helper = (function () {
             return today;
         },
         
+        _clone = function(homedata){
+            var dataString,
+                data;
+            dataString = JSON.stringify(homedata);
+            return JSON.parse(dataString);
+        },
+        
         _getShortInfo = function(feature){
             var shortInfo = {
                 "infoboard":["Mitbewohner:", "Markus", "Christian"],
@@ -32,26 +39,30 @@ const Helper = (function () {
         
         _getSortList = function(feature){
             var sortList = {
-                "infoboard":[{title:"Alles anzeigen", option:"all"},
-                             {title:"Nachrichten", option:"infoboard"},
-                             {title:"Aufgaben", option:"tasks"},
-                             {title:"Kalender", option:"calendar"},
-                             {title:"Vorräte", option:"stock"}],
-                "account":[{title:"Alles anzeigen", option:"all"},
-                             {title:"Bezahlt", option:"done"},
-                             {title:"Nicht bezahlt", option:"notDone"}],
-                "stock":[{title:"Alles anzeigen", option:"all"},
-                             {title:"Vorhanden", option:"inStock"},
-                             {title:"Nicht vorhanden", option:"notInStock"}],
-                "tasks":[{title:"Alles anzeigen", option:"all"},
-                             {title:"Eigene", option:"private"},
-                             {title:"Nicht eigene", option:"notPrivate"},
-                             {title:"Erledigte", option:"done"},
-                             {title:"Nicht erledigte", option:"notDone"}]
+                "infoboard":[{title:"Alles anzeigen", option:"all", checked: true},
+                             {title:"Nachrichten", option:"infoboard", checked: true},
+                             {title:"Aufgaben", option:"tasks", checked: true},
+                             {title:"Kalender", option:"calendar", checked: true},
+                             {title:"Vorräte", option:"stock", checked: true}],
+                "account":[{title:"Alles anzeigen", option:"all", checked: true},
+                             {title:"Bezahlt", option:"done", checked: true},
+                             {title:"Nicht bezahlt", option:"notDone", checked: true}],
+                "stock":[{title:"Alles anzeigen", option:"all", checked: true},
+                             {title:"Vorhanden", option:"inStock", checked: true},
+                             {title:"Nicht vorhanden", option:"notInStock", checked: true}],
+                "tasks":[{title:"Alles anzeigen", option:"all", checked: true},
+                             {title:"Eigene", option:"private", checked: true},
+                             {title:"Nicht eigene", option:"notPrivate", checked: true},
+                             {title:"Erledigte", option:"done", checked: true},
+                             {title:"Nicht erledigte", option:"notDone", checked: true}],
+                "calendar":[{title:"Alles anzeigen", option:"all", checked: true},
+                             {title:"Eigene", option:"private", checked: true},
+                             {title:"Nicht eigene", option:"notPrivate", checked: true}]
             };
             return sortList[feature];
         };
 
+    that.clone = _clone;
     that.getShortInfo = _getShortInfo;
     that.getSortList = _getSortList;
     that.today = _today;

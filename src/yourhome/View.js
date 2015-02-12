@@ -59,8 +59,8 @@ Yourhome.View = (function () {
                     var calendarEntry = {title:"Neuer Eintrag", start: date, allDay:true, info:date};
                     $(calendar).fullCalendar('renderEvent', calendarEntry, true);
                     renderdata.middle.push(calendarEntry);
-                    $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"middle":renderdata.middle});
                     $(Yourhome).trigger('newCalendarEntry',{"feature":renderdata.feature,"entry":calendarEntry});
+                    $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":calendarEntry});
                 },
     
                 eventClick: function(calEvent, jsEvent, view) {
@@ -98,23 +98,17 @@ Yourhome.View = (function () {
                     compiled = _.template($(checkboxTemplate).html());
                 container = $(compiled(el));
                 var checkbox = container.find('input')[0];
-                if(element.checked === undefined){
-                    checkbox.checked = true;
-                }else{
-                    checkbox.checked = element.checked;
-                }
+                checkbox.checked = element.checked;
                 container.on('change',function(){
                     $(Yourhome).trigger('sortBoxChange',{"feature":renderdata.feature, 
                                                          "option":container.attr('option'), 
                                                          "checked":checkbox.checked
                                                         }
                                        );
+                    _render();
                 });
                 sort.append(container);
             });
-        },
-
-        _onCheckedChange = function(){
         },
         
         _createAddButton = function(){ 
@@ -146,21 +140,19 @@ Yourhome.View = (function () {
                 input;
             input = middle.find("textarea")[0];
             TESTIMG.src = "res/assets/avatar.png";
-            var infoboardEntry = {"feature":"inforboard",
-                                  "user-img":TESTIMG,
+            var infoboardEntry = {"feature":"infoboard",
+                                  "user-img":TESTIMG.src,
                                   "input-text":input.value,
                                   "user-name":"Muster Maxmann",
                                  "date": today};
-            renderdata.middle.unshift(infoboardEntry);
-            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"middle":renderdata.middle});
-            _renderMiddleBar();
+            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":infoboardEntry});
         },
         
         _infoContainer = function(element){
             var el = {"inputText":element["input-text"],
                       "inputUser":element["user-name"],
                       "inputDate":element["date"],
-                      "imgSrc":element["user-img"].src
+                      "imgSrc":element["user-img"]
                      },
                 container,
                 compiled = _.template($(infoboardTemplate).html());
