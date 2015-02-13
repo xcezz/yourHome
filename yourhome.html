@@ -65,6 +65,23 @@
         </form>
     </script>
     
+    <script id="newStockEntryTemplate" type="text/template">
+        <form class="form">
+	       <h2><span class="update-status">Neuer Artikel</span></h2>
+	       <br>
+            <input type="message" class="message" placeholder=" Artikelname " autofocus size="61" required>
+            <br>
+    	   <input type="button" name="submit" value="Post" class="submit" onclick = <%= onclickFunction %>>
+        </form>
+    </script>
+    
+     <script id="stockTemplate" type="text/template">
+        <form class="form">                    
+            <div class="dreieck"></div>
+            <div class="item"><%= item %></div>
+         </form>    
+    </script>
+    
     <script id="newInfoboardEntryTemplate" type="text/template">
         <form class="form">
             <h2><span class="update-status">Update status</span> <span class="upload-image">Upload image</span></h2>

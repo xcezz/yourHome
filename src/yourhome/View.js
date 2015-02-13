@@ -6,6 +6,8 @@ Yourhome.View = (function () {
         infoTemplate,
         newInfoTemplate,
         checkboxTemplate,
+        newStockTemplate,
+        stockTemplate,
         renderdata,
         calendar,
 
@@ -19,6 +21,8 @@ Yourhome.View = (function () {
             infoTemplate = document.getElementById('infoboardTemplate');
             checkboxTemplate = document.getElementById('checkboxTemplate');
             newInfoTemplate = document.getElementById('newInfoboardEntryTemplate');
+            newStockTemplate = document.getElementById('newStockEntryTemplate');
+            stockTemplate = document.getElementById('stockTemplate');
             left = $('#steuerunglinks');
             middle = $('#steuerungmitte');
             right = $('#steuerungrechts');
@@ -32,6 +36,7 @@ Yourhome.View = (function () {
                 renderdata = data;
                 _render();
             });
+            $(Yourhome).on('submitStockEntry', _submitStockEntry);
         },
         
         _render = function(){
@@ -46,10 +51,16 @@ Yourhome.View = (function () {
                 middle.append(calendar);
                 calendar.innerHTML = "";
                 _getCalendar();
-            }else{
-            _.each(renderdata.middle, function(element){
+            }
+            if(renderdata.feature=="infoboard"){
+                _.each(renderdata.middle, function(element){
                 middle.append(_infoContainer(element));
             });
+            }
+            if(renderdata.feature=="stock"){
+                _.each(renderdata.middle, function(element){
+                    middle.append(_stockContainer(element));
+                });
             }
         },
         
@@ -120,11 +131,23 @@ Yourhome.View = (function () {
             but.innerHTML = "Neuer Eintrag";
             but.className = "button-newentry";
             but.onclick = function(){
-                _newInfoEntry();
+                if(renderdata.feature=="infoboard"){
+                    _newInfoEntry();
+                }
+                if(renderdata.feature=="stock"){
+                    _newStockEntry();
+                }
             };
             left.prepend(but);
         },
-    
+        _newStockEntry = function(){       
+            var newEntry = {"onclickFunction": "$(Yourhome).trigger('submitStockEntry')"},
+                container,
+                compiled = _.template($(newStockTemplate).html());
+            container = $(compiled(newEntry));
+            middle.prepend(container);         
+        },
+            
         _newInfoEntry = function(){       
             var newEntry = {"onclickFunction": "$(Yourhome).trigger('submitInfoEntry')"},
                 container,
@@ -147,6 +170,13 @@ Yourhome.View = (function () {
                                  "date": today};
             $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":infoboardEntry});
         },
+            
+        _submitStockEntry = function(){
+            var item = middle.find('input')[0],
+                stockEntry = {"feature":"stock",
+                                "item":item.value};
+            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":stockEntry});
+        },
         
         _infoContainer = function(element){
             var el = {"inputText":element["input-text"],
@@ -156,6 +186,15 @@ Yourhome.View = (function () {
                      },
                 container,
                 compiled = _.template($(infoboardTemplate).html());
+            container = $(compiled(el));
+            return container;
+        },
+            
+            _stockContainer = function(element){
+            var el = {"item":element["item"]
+                     },
+                container,
+                compiled = _.template($(stockTemplate).html());
             container = $(compiled(el));
             return container;
         };
