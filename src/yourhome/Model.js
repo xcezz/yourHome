@@ -35,11 +35,25 @@ Yourhome.Model = (function () {
                 $(Yourhome).trigger('render', renderdata[data.feature]);
             });
             
+            $(Yourhome).on('elementStateChange', function(event, data){
+                var entry = Helper.clone(data);
+                if(entry.rot){
+                    entry["input-text"] += " leer";
+                    entry["user-name"] = document.getElementById(data.feature).innerHTML;
+                    homedata.infoboard.middle.unshift(entry);
+                    homedata[entry.feature].right.push(data["input-text"]);
+                }
+                _.findWhere(homedata[entry.feature].middle,{"input-text":data["input-text"]}).rot = data.rot;
+                $(Yourhome).trigger('rightUpdated', _updateRenderdata());
+            });
+            
+            
             $(Yourhome).on('middleContentChanged',function(event, data){                
                 homedata[data.feature].middle.unshift(data.entry);
                 if(data.feature!="infoboard" && data.feature!="calendar"){
-                    data.entry["user-name"] = document.getElementById(data.entry.feature).innerHTML;
-                    homedata.infoboard.middle.unshift(data.entry);
+                    var entry = Helper.clone(data.entry);
+                    entry["user-name"] = document.getElementById(data.feature).innerHTML;
+                    homedata.infoboard.middle.unshift(entry);
                 }
                 renderdata = _updateRenderdata();
                 $(Yourhome).trigger('render', renderdata[data.feature]);

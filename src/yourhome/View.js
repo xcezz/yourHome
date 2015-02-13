@@ -35,6 +35,10 @@ Yourhome.View = (function () {
                 renderdata = data;
                 _render();
             });
+            $(Yourhome).on('rightUpdated', function(event, data){
+                renderdata.right = data[renderdata.feature].right;
+                _renderRightBar();
+            });
         },
         
         _render = function(){
@@ -148,11 +152,13 @@ Yourhome.View = (function () {
             input = middle.find(".message")[0];
             TESTIMG.src = "res/assets/avatar.png";
             var entry = {"feature":renderdata.feature,
-                                  "user-img":TESTIMG.src,
-                                  "input-text":input.value,
-                                  "user-name":"Muster Maxmann",
-                                 "date": today};
-            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":entry});
+                         "user-img":TESTIMG.src,
+                         "input-text":input.value,
+                         "user-name":"Muster Maxmann",
+                         "date": today,
+                         "rot":false
+                        };
+            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":entry, "newEntry":true});
         },
         
         _getContainer = function(element){
@@ -164,10 +170,17 @@ Yourhome.View = (function () {
                 container,
                 compiled = _.template($(templates[renderdata.feature + "Template"]).html());
             container = $(compiled(el));
-            if(renderdata.feature == "stock"){
+            if(renderdata.feature == "stock" || renderdata.feature == "tasks"){
                 var triang = container.find(".dreieck")[0];
+                if(!element.rot){
+                    triang.className = "dreieck";
+                }else{
+                    triang.className = "dreieck rot";                    
+                }
                 triang.addEventListener('click', function(){
                     $(triang).toggleClass('rot');
+                    element.rot = Helper.toggleTrue(element.red);
+                    $(Yourhome).trigger('elementStateChange', element);
                 });
             }
             return container;

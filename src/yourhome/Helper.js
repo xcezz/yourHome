@@ -37,6 +37,12 @@ const Helper = (function () {
             return shortInfo[feature];
         },
         
+        _toggleTrue = function(boolean){
+            if(boolean){
+                return false;
+            }else return true;
+        },
+        
         _getSortList = function(feature){
             var sortList = {
                 "infoboard":[{title:"Alles anzeigen", option:"all", checked: true},
@@ -62,6 +68,7 @@ const Helper = (function () {
             return sortList[feature];
         };
 
+    that.toggleTrue = _toggleTrue;
     that.clone = _clone;
     that.getShortInfo = _getShortInfo;
     that.getSortList = _getSortList;
