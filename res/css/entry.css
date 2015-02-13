@@ -110,12 +110,12 @@ body {
     border-bottom: 25px solid green;
     transform: rotate(-45deg);
     transition: border-bottom 1s;
+    transition: all 1s ease;
 
 }
 
 .form .dreieck.rot {
     color: red;
-    transition: all 1s ease;
     transform: translate(360px, 55px) rotate(135deg);
     border-bottom: 25px solid red;
 

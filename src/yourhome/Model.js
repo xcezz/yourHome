@@ -38,6 +38,7 @@ Yourhome.Model = (function () {
             $(Yourhome).on('middleContentChanged',function(event, data){                
                 homedata[data.feature].middle.unshift(data.entry);
                 if(data.feature!="infoboard" && data.feature!="calendar"){
+                    data.entry["user-name"] = document.getElementById(data.entry.feature).innerHTML;
                     homedata.infoboard.middle.unshift(data.entry);
                 }
                 renderdata = _updateRenderdata();

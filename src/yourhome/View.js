@@ -20,6 +20,8 @@ Yourhome.View = (function () {
             templates.newinfoboardTemplate = document.getElementById('newInfoboardEntryTemplate');
             templates.newstockTemplate = document.getElementById('newStockEntryTemplate');
             templates.stockTemplate = document.getElementById('stockTemplate');
+            templates.newtasksTemplate = document.getElementById('newStockEntryTemplate');
+            templates.tasksTemplate = document.getElementById('stockTemplate');
             left = $('#steuerunglinks');
             middle = $('#steuerungmitte');
             right = $('#steuerungrechts');
@@ -48,15 +50,10 @@ Yourhome.View = (function () {
                 calendar.innerHTML = "";
                 _getCalendar();
             }
-            if(renderdata.feature=="infoboard"){
-                _.each(renderdata.middle, function(element){
-                middle.append(_getContainer(element));
-            });
-            }
-            if(renderdata.feature=="stock"){
+            if(renderdata.feature=="infoboard" || renderdata.feature=="tasks" || renderdata.feature=="stock"){
                 _.each(renderdata.middle, function(element){
                     middle.append(_getContainer(element));
-                });
+            });
             }
         },
         
@@ -127,10 +124,7 @@ Yourhome.View = (function () {
             but.innerHTML = "Neuer Eintrag";
             but.className = "button-newentry";
             but.onclick = function(){
-                if(renderdata.feature=="infoboard"){
-                    _newEntry();
-                }
-                if(renderdata.feature=="stock"){
+                if(renderdata.feature=="infoboard" || renderdata.feature=="tasks" || renderdata.feature=="stock"){
                     _newEntry();
                 }
             };
@@ -138,7 +132,8 @@ Yourhome.View = (function () {
         },
             
         _newEntry = function(){       
-            var newEntry = {"onclickFunction": "$(Yourhome).trigger('submitEntry')"},
+            var newEntry = {"onclickFunction": "$(Yourhome).trigger('submitEntry')",
+                           "placeholder":"Eingabe"},
                 container,
                 compiled = _.template($(templates["new" + renderdata.feature + "Template"]).html());
             container = $(compiled(newEntry));
@@ -152,12 +147,12 @@ Yourhome.View = (function () {
                 input;
             input = middle.find(".message")[0];
             TESTIMG.src = "res/assets/avatar.png";
-            var infoboardEntry = {"feature":renderdata.feature,
+            var entry = {"feature":renderdata.feature,
                                   "user-img":TESTIMG.src,
                                   "input-text":input.value,
                                   "user-name":"Muster Maxmann",
                                  "date": today};
-            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":infoboardEntry});
+            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":entry});
         },
         
         _getContainer = function(element){
