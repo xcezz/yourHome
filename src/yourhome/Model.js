@@ -37,6 +37,7 @@ Yourhome.Model = (function () {
             
             $(Yourhome).on('elementStateChange', function(event, data){
                 var entry = Helper.clone(data);
+                _.findWhere(homedata[entry.feature].middle,{"input-text":data["input-text"]}).rot = data.rot;
                 if(entry.rot){
                     entry["input-text"] += " leer";
                     entry["user-name"] = document.getElementById(data.feature).innerHTML;

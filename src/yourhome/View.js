@@ -179,7 +179,7 @@ Yourhome.View = (function () {
                 }
                 triang.addEventListener('click', function(){
                     $(triang).toggleClass('rot');
-                    element.rot = Helper.toggleTrue(element.red);
+                    element.rot = Helper.toggleTrue(element.rot);
                     $(Yourhome).trigger('elementStateChange', element);
                 });
             }
