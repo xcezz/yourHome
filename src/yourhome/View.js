@@ -3,11 +3,8 @@ Yourhome.View = (function () {
         left,
         middle,
         right,
-        infoTemplate,
-        newInfoTemplate,
         checkboxTemplate,
-        newStockTemplate,
-        stockTemplate,
+        templates = {},
         renderdata,
         calendar,
 
@@ -18,11 +15,11 @@ Yourhome.View = (function () {
         },
         
         _initElements = function(){
-            infoTemplate = document.getElementById('infoboardTemplate');
+            templates.infoboardTemplate = document.getElementById('infoboardTemplate');
             checkboxTemplate = document.getElementById('checkboxTemplate');
-            newInfoTemplate = document.getElementById('newInfoboardEntryTemplate');
-            newStockTemplate = document.getElementById('newStockEntryTemplate');
-            stockTemplate = document.getElementById('stockTemplate');
+            templates.newinfoboardTemplate = document.getElementById('newInfoboardEntryTemplate');
+            templates.newstockTemplate = document.getElementById('newStockEntryTemplate');
+            templates.stockTemplate = document.getElementById('stockTemplate');
             left = $('#steuerunglinks');
             middle = $('#steuerungmitte');
             right = $('#steuerungrechts');
@@ -31,12 +28,11 @@ Yourhome.View = (function () {
         },
                     
         _initEvents = function(){
-            $(Yourhome).on('submitInfoEntry',_submitInfoEntry);
+            $(Yourhome).on('submitEntry',_submitEntry);
             $(Yourhome).on('render', function(event,data){
                 renderdata = data;
                 _render();
             });
-            $(Yourhome).on('submitStockEntry', _submitStockEntry);
         },
         
         _render = function(){
@@ -54,12 +50,12 @@ Yourhome.View = (function () {
             }
             if(renderdata.feature=="infoboard"){
                 _.each(renderdata.middle, function(element){
-                middle.append(_infoContainer(element));
+                middle.append(_getContainer(element));
             });
             }
             if(renderdata.feature=="stock"){
                 _.each(renderdata.middle, function(element){
-                    middle.append(_stockContainer(element));
+                    middle.append(_getContainer(element));
                 });
             }
         },
@@ -132,70 +128,53 @@ Yourhome.View = (function () {
             but.className = "button-newentry";
             but.onclick = function(){
                 if(renderdata.feature=="infoboard"){
-                    _newInfoEntry();
+                    _newEntry();
                 }
                 if(renderdata.feature=="stock"){
-                    _newStockEntry();
+                    _newEntry();
                 }
             };
             left.prepend(but);
         },
-        _newStockEntry = function(){       
-            var newEntry = {"onclickFunction": "$(Yourhome).trigger('submitStockEntry')"},
-                container,
-                compiled = _.template($(newStockTemplate).html());
-            container = $(compiled(newEntry));
-            middle.prepend(container);         
-        },
             
-        _newInfoEntry = function(){       
-            var newEntry = {"onclickFunction": "$(Yourhome).trigger('submitInfoEntry')"},
+        _newEntry = function(){       
+            var newEntry = {"onclickFunction": "$(Yourhome).trigger('submitEntry')"},
                 container,
-                compiled = _.template($(newInfoTemplate).html());
+                compiled = _.template($(templates["new" + renderdata.feature + "Template"]).html());
             container = $(compiled(newEntry));
             middle.prepend(container);
-            middle.find("textarea")[0].focus();           
+            middle.find(".message")[0].focus();           
         },
             
-        _submitInfoEntry = function(){
+        _submitEntry = function(){
             var TESTIMG = new Image(),
                 today = Helper.today(),
                 input;
-            input = middle.find("textarea")[0];
+            input = middle.find(".message")[0];
             TESTIMG.src = "res/assets/avatar.png";
-            var infoboardEntry = {"feature":"infoboard",
+            var infoboardEntry = {"feature":renderdata.feature,
                                   "user-img":TESTIMG.src,
                                   "input-text":input.value,
                                   "user-name":"Muster Maxmann",
                                  "date": today};
             $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":infoboardEntry});
         },
-            
-        _submitStockEntry = function(){
-            var item = middle.find('input')[0],
-                stockEntry = {"feature":"stock",
-                                "item":item.value};
-            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":stockEntry});
-        },
         
-        _infoContainer = function(element){
+        _getContainer = function(element){
             var el = {"inputText":element["input-text"],
                       "inputUser":element["user-name"],
                       "inputDate":element["date"],
-                      "imgSrc":element["user-img"]
+                      "imgSrc":element["user-img"],
                      },
                 container,
-                compiled = _.template($(infoboardTemplate).html());
+                compiled = _.template($(templates[renderdata.feature + "Template"]).html());
             container = $(compiled(el));
-            return container;
-        },
-            
-            _stockContainer = function(element){
-            var el = {"item":element["item"]
-                     },
-                container,
-                compiled = _.template($(stockTemplate).html());
-            container = $(compiled(el));
+            if(renderdata.feature == "stock"){
+                var triang = container.find(".dreieck")[0];
+                triang.addEventListener('click', function(){
+                    $(triang).toggleClass('rot');
+                });
+            }
             return container;
         };
 

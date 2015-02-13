@@ -113,7 +113,7 @@ body {
 
 }
 
-.form .dreieck:hover {
+.form .dreieck.rot {
     color: red;
     transition: all 1s ease;
     transform: translate(360px, 55px) rotate(135deg);

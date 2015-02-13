@@ -37,6 +37,9 @@ Yourhome.Model = (function () {
             
             $(Yourhome).on('middleContentChanged',function(event, data){                
                 homedata[data.feature].middle.unshift(data.entry);
+                if(data.feature!="infoboard" && data.feature!="calendar"){
+                    homedata.infoboard.middle.unshift(data.entry);
+                }
                 renderdata = _updateRenderdata();
                 $(Yourhome).trigger('render', renderdata[data.feature]);
             });
