@@ -150,7 +150,7 @@ Yourhome.View = (function () {
                 today = Helper.today(),
                 input;
             input = middle.find(".message")[0];
-            TESTIMG.src = "res/assets/avatar.png";
+            TESTIMG.src = "res/assets/" + renderdata.feature + ".png";
             var entry = {"feature":renderdata.feature,
                          "user-img":TESTIMG.src,
                          "input-text":input.value,

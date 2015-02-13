@@ -61,7 +61,7 @@ Yourhome.Model = (function () {
             
             $(Yourhome).on('newCalendarEntry',function(event, data){
                 var TESTIMG = new Image();
-                TESTIMG.src = "res/assets/avatar.png";
+                TESTIMG.src = "res/assets/calendar.png";
                 var infoboardEntry = {
                         "feature":data.feature,
                         "user-img":TESTIMG.src,
