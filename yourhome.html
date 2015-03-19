@@ -66,12 +66,12 @@
     </script>
     
     <script id="newStockEntryTemplate" type="text/template">
-        <form class="form">
+        <form id="submitForm" class="form">
 	       <h2><span class="update-status">Neuer Artikel</span></h2>
 	       <br>
             <input type="message" class="message" placeholder= <%= placeholder %> autofocus size="61" required>
             <br>
-    	   <input type="button" name="submit" value="Post" class="submit" onclick = <%= onclickFunction %>>
+    	   <input id="submitButton" type="button" name="submit" value="Post" class="submit" onclick = <%= onclickFunction %>>
         </form>
     </script>
     
@@ -83,11 +83,27 @@
     </script>
     
     <script id="newInfoboardEntryTemplate" type="text/template">
-        <form class="form">
+        <form id="submitForm" class="form">
             <h2><span class="update-status">Update status</span> <span class="upload-image">Upload image</span></h2>
             <br>
-            <textarea cols="78" rows="10" id="message" class="message" placeholder=" What's on your mind?"></textarea>
-            <input type="button" name="submit" value="Post" class="submit" onclick = <%= onclickFunction %>>
+            <textarea cols="78" rows="10" id="message" class="message" placeholder=" What's on your mind?" required></textarea>
+            <input id="submitButton" type="button" name="submit" value="Post" class="submit" onclick = <%= onclickFunction %>>
+        </form>
+    </script>
+    
+    <script id="newAccountEntryTemplate" type="text/template">
+        <form id="submitForm" class="form">
+            <h2><span class="update-status">Neue Rechnung</span></h2>
+            <br>
+            <input id="von" type="message" class="message" placeholder=" Von" autofocus size="61" required>
+            <br>
+            <input id="rechnung" type="message" class="message" placeholder=" Rechnung" autofocus size="61" required>
+            <br>
+            <input id="betrag" type="message" class="message" placeholder=" Betrag" size="61" pattern="^\d{1,4}([\.,]\d{2})?$" title="z.B. 50,00" required>
+            <br>
+            <input id="an" type="message" class="message" placeholder=" An" autofocus size="61" required>
+            <br>
+            <input id="submitButton" type="button" name="submit" value="Post" class="submit" onclick = <%= onclickFunction %>>
         </form>
     </script>
     
