@@ -37,19 +37,20 @@ Yourhome.Model = (function () {
             
             $(Yourhome).on('elementStateChange', function(event, data){
                 var entry = Helper.clone(data);
-                _.findWhere(homedata[entry.feature].middle,{"input-text":data["input-text"]}).rot = data.rot;
-                if(entry.rot){
-                    entry["input-text"] += " leer";
-                    entry["user-name"] = document.getElementById(data.feature).innerHTML;
-                    homedata.infoboard.middle.unshift(entry);
+                _.findWhere(homedata[entry.feature].middle,{"input-text":data["input-text"]}).done = data.done;
+                entry["input-text"] += Helper.getStateMessage(entry.feature, entry.done);
+                entry["user-name"] = document.getElementById(data.feature).innerHTML;
+                homedata.infoboard.middle.unshift(entry);
+                if(!data.done){
                     homedata[entry.feature].right.push(data["input-text"]);
-                }
-                _.findWhere(homedata[entry.feature].middle,{"input-text":data["input-text"]}).rot = data.rot;
+                }else homedata[entry.feature].right = _.without(homedata[entry.feature].right, data["input-text"]);
                 $(Yourhome).trigger('rightUpdated', _updateRenderdata());
             });
             
             
-            $(Yourhome).on('middleContentChanged',function(event, data){                
+            $(Yourhome).on('middleContentChanged',function(event, data){
+                _addSortOptions(data);
+                console.log(data.entry);
                 homedata[data.feature].middle.unshift(data.entry);
                 if(data.feature!="infoboard" && data.feature!="calendar"){
                     var entry = Helper.clone(data.entry);
@@ -87,6 +88,21 @@ Yourhome.Model = (function () {
                 renderdata = _updateRenderdata();
                 $(Yourhome).trigger('render', renderdata[element.feature]);
             });
+        },
+        
+        _addSortOptions = function(data){
+            if(data.feature === "tasks"){
+                data.entry.notDone = !(data.entry.done);
+                data.entry.private = false;
+                data.entry.notPrivate = !(data.entry.private);
+            }
+            if(data.feature === "stock"){
+                data.entry.inStock = data.entry.done;
+                data.entry.notInStock = !(data.entry.inStock);
+            }
+            if(data.feature === "account"){
+                data.entry.notDone = !(data.entry.done);
+            }
         },
         
         _updateRenderdata = function(){

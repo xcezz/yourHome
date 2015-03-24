@@ -37,6 +37,25 @@ const Helper = (function () {
             return shortInfo[feature];
         },
         
+        _getStateMessage = function(feature, done){
+            if(feature === "stock"){
+                if(!done){
+                    return " leer";
+                }else return " vorrätig";
+            }
+            if(feature === "tasks"){
+                if(done){
+                    return " erledigt";
+                }
+            }
+            if (feature === "account"){
+                if(done){
+                    return " gezahlt";
+                }
+            }
+            return "";
+        },
+        
         _toggleTrue = function(boolean){
             if(boolean){
                 return false;
@@ -68,7 +87,8 @@ const Helper = (function () {
             };
             return sortList[feature];
         };
-
+    
+    that.getStateMessage = _getStateMessage;
     that.toggleTrue = _toggleTrue;
     that.clone = _clone;
     that.getShortInfo = _getShortInfo;

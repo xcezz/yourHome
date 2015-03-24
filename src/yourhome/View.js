@@ -162,7 +162,7 @@ Yourhome.View = (function () {
                             "input-text":input,
                             "user-name":"Muster Maxmann",
                             "date": today,
-                            "rot":true
+                            "done":false
                             };
                 }else{
                 var entry = {"feature":renderdata.feature,
@@ -170,7 +170,7 @@ Yourhome.View = (function () {
                             "input-text":input.value,
                             "user-name":"Muster Maxmann",
                             "date": today,
-                            "rot":false
+                            "done":true
                             };
                 }
                 $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":entry, "newEntry":true});
@@ -190,15 +190,14 @@ Yourhome.View = (function () {
             container = $(compiled(el));
             if(renderdata.feature == "stock" || renderdata.feature == "tasks" || renderdata.feature == "account"){
                 var triang = container.find(".dreieck")[0];
-                if(!element.rot){
+                if(element.done){
                     triang.className = "dreieck";
                 }else{
                     triang.className = "dreieck rot";
-                    $(Yourhome).trigger('elementStateChange', element);
                 }
                 triang.addEventListener('click', function(){
                     $(triang).toggleClass('rot');
-                    element.rot = Helper.toggleTrue(element.rot);
+                    element.done = Helper.toggleTrue(element.done);
                     $(Yourhome).trigger('elementStateChange', element);
                 });
             }
