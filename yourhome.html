@@ -48,6 +48,24 @@
   <p>yourHome</p>
 </footer>
 </div>
+<div style="display:none;" id="newCalendar"> 
+    <form class="form">
+        <h2><span class="update-status">Neues Ereignis</span></h2>
+        <br>
+        <input type="message" class="message" placeholder=" Titel" autofocus size="61" required>
+        <br>
+        <input type="message" class="message" placeholder=" Beschreibung" autofocus size="61">
+        <br><br>
+        <label>Ganztägig? </label><input id="allday" type="checkbox" name="allday" value="allday">
+        <br>
+        <label>Privat? </label><input type="checkbox" name="private" value="private">
+        <br>
+        <label>Von: </label><input type="date" name="start"> <input type="time" name="start2">
+        <br>
+        <label>Bis: </label><input type="date" name="end"> <input type="time" name="end2">
+    	<input id="newCalendarButton" type="button" name="submit" value="Post" class="submit">
+    </form>
+</div>
     
     <script src="libs/jquery-2.1.1.js"></script>
     <script src="libs/underscore.js"></script>
@@ -107,6 +125,7 @@
         </form>
     </script>
     
+    <script src="libs/jquery.leanModal.min.js"></script>
     <script src="libs/moment.min.js"></script>
     <script src="libs/fullcalendar.js"></script>
     <script src="src/yourhome/Yourhome.js"></script>

@@ -19,6 +19,10 @@ const Helper = (function () {
             return today;
         },
         
+        _getCalendarFormat = function(){
+            
+        },
+        
         _clone = function(homedata){
             var dataString,
                 data;
@@ -88,6 +92,7 @@ const Helper = (function () {
             return sortList[feature];
         };
     
+    that.getCalendarFormat =_getCalendarFormat;
     that.getStateMessage = _getStateMessage;
     that.toggleTrue = _toggleTrue;
     that.clone = _clone;

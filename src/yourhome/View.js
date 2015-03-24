@@ -66,7 +66,8 @@ Yourhome.View = (function () {
         _getCalendar = function(){
             $(calendar).fullCalendar({
                 dayClick: function(date, allDay, jsEvent, view){
-                    var calendarEntry = {title:"Neuer Eintrag", start: date, allDay:true, info:date};
+                    var calendarEntry = {title:"Neuer Eintrag", start: "2015-03-24", allDay:true, info:date};
+                    console.log(date);
                     $(calendar).fullCalendar('renderEvent', calendarEntry, true);
                     renderdata.middle.push(calendarEntry);
                     $(Yourhome).trigger('newCalendarEntry',{"feature":renderdata.feature,"entry":calendarEntry});
@@ -129,6 +130,11 @@ Yourhome.View = (function () {
             var but = document.createElement("button");
             but.innerHTML = "Neuer Eintrag";
             but.className = "button-newentry";
+            if(renderdata.feature=="calendar"){
+                but.setAttribute("href", "#newCalendar");
+                $(but).leanModal({closeButton: "#newCalendarButton"}); 
+                document.getElementById("newCalendarButton").onclick = _newCalendarEntry;
+            }
             but.onclick = function(){
                 if(renderdata.feature=="infoboard" || renderdata.feature=="tasks" || renderdata.feature=="stock" || renderdata.feature=="account"){
                     _newEntry();
@@ -145,6 +151,18 @@ Yourhome.View = (function () {
             container = $(compiled(newEntry));
             middle.prepend(container);
             middle.find(".message")[0].focus();           
+        },
+        
+        _newCalendarEntry = function(){
+            var data = document.getElementById("newCalendar"),
+                calendarEntry = {};
+            var inputs = $(data).find("input");
+            calendarEntry.title = inputs[0].value;
+            calendarEntry.start = inputs[4].value;
+            $(calendar).fullCalendar('renderEvent', calendarEntry, true);
+            renderdata.middle.push(calendarEntry);
+            $(Yourhome).trigger('newCalendarEntry',{"feature":renderdata.feature,"entry":calendarEntry});
+            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":calendarEntry});
         },
             
         _submitEntry = function(){

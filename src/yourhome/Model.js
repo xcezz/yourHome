@@ -67,7 +67,7 @@ Yourhome.Model = (function () {
                 var infoboardEntry = {
                         "feature":data.feature,
                         "user-img":TESTIMG.src,
-                        "input-text":data.entry.title + new Date(data.entry.info),
+                        "input-text":data.entry.title + new Date(data.entry.start),
                         "user-name":"Kalender Eintrag",
                         "date": Helper.today()};
                 homedata.infoboard.middle.unshift(infoboardEntry);
