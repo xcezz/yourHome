@@ -22,7 +22,7 @@ body {
     box-shadow:
         0 2px 2px rgba(0,0,0,0.2),        
         0 1px 5px rgba(0,0,0,0.2),        
-        0 0 0 12px rgba(255,255,255,0.4); 
+        0 0 0 12px rgba(255,255,255,0.4);
 }
 
 .form .userimage {
@@ -80,6 +80,17 @@ body {
 
 .form h2 .upload-image {
     float: right;
+}
+
+.form label {
+    font-size: 14px;
+    color: #b4b4b4;
+    padding-top: 0px;
+    text-shadow: 0 2px 0 rgba(255,255,255,0.8);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.8);
+    width: 100px;
+    display: block;
+    float: left;
 }
 
 .form a {
