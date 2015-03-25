@@ -19,6 +19,48 @@ const Helper = (function () {
             return today;
         },
         
+        _getTodaysEvents = function(events){
+            var array = [];
+            var today = new Date();
+            _.each(events, function(element){
+                var year = _year(element.start),
+                month = _month(element.start),
+                day = _day(element.start);
+                if(year === parseInt(today.getFullYear())){
+                    if(month === parseInt(today.getMonth()+1)){
+                        if(day === parseInt(today.getDate())){
+                            array.unshift(element);
+                        }
+                    }
+                }
+            });
+            return array;
+        },
+        
+        _year = function(string){
+            var result = "";
+            for(var i=0; i<4; i++){
+                result += string.charAt(i);
+            }
+            return parseInt(result);
+        },
+        
+        _month = function(string){
+            var result = "";
+            for(var i=5; i<7; i++){
+                result += string.charAt(i);
+            }
+            return parseInt(result);
+        },
+        
+        _day = function(string){
+            var result = "";
+            for(var i=8; i<10; i++){
+                result += string.charAt(i);
+            }
+            return parseInt(result);
+        },
+        
         _getCalendarFormat = function(){
             
         },
@@ -91,7 +133,8 @@ const Helper = (function () {
             };
             return sortList[feature];
         };
-    
+     
+    that.getTodaysEvents = _getTodaysEvents;
     that.getCalendarFormat =_getCalendarFormat;
     that.getStateMessage = _getStateMessage;
     that.toggleTrue = _toggleTrue;

@@ -70,7 +70,7 @@ Yourhome.View = (function () {
                 }
             });
             _.each(renderdata.middle, function(element){
-                $(calendar).fullCalendar('renderEvent', {id:element.id, title:element.title, start: element.start, allDay:element.allDay, info:element.info, private:element.private}, true);
+                $(calendar).fullCalendar('renderEvent', {id:element.id, title:element.title, start: element.start, end: element.end, allDay:element.allDay, info:element.info, private:element.private}, true);
             });
         },
         
@@ -82,10 +82,17 @@ Yourhome.View = (function () {
         
         _renderRightBar = function(){
             right.empty();
-            var entry = "<p><b>" + _.first(renderdata.right) + "</b></p>";
-            _.each(_.last(renderdata.right, _.size(renderdata.right)-1), function(element){
-                entry += "<p>"+element+"<p>";
-            });
+            if(renderdata.feature!="calendar"){
+                var entry = "<p><b>" + _.first(renderdata.right) + "</b></p>";
+                _.each(_.last(renderdata.right, _.size(renderdata.right)-1), function(element){
+                    entry += "<p>"+element+"<p>";
+                });
+            }else{
+                var entry = "<p><b>" + _.first(renderdata.right) + "</b></p>";
+                _.each(_.last(renderdata.right, _.size(renderdata.right)-1), function(element){
+                    entry += "<p>"+element.text+"<p>";
+                });
+            }
             right.html(entry);
         },
         
@@ -158,10 +165,11 @@ Yourhome.View = (function () {
                 calendarEntry.allDay = inputs[2].checked;                
                 calendarEntry.private = inputs[3].checked;
                 calendarEntry.start = inputs[4].value;
+                calendarEntry.end = inputs[6].value;
                 $(calendar).fullCalendar('renderEvent', calendarEntry, true);
                 renderdata.middle.push(calendarEntry);
                 $(Yourhome).trigger('newCalendarEntry',{"feature":renderdata.feature,"entry":calendarEntry});
-                $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":calendarEntry});
+                $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":calendarEntry,"renderdata":renderdata});
                 $("#lean_overlay").fadeOut(200);
                 $("#newCalendar").css({"display":"none"});
             }else{
@@ -175,6 +183,7 @@ Yourhome.View = (function () {
             document.getElementById("deleteCalendar").onclick = function(){
                 $(calendar).fullCalendar('removeEvents',event.id);
                 renderdata.middle = _.without(renderdata.middle, _.findWhere(renderdata.middle, {id:event.id}));
+                renderdata.right = _.without(renderdata.right, _.findWhere(renderdata.right, {id:event.id}));
                 $("#lean_overlay").fadeOut(200);
                 $("#calendarInfo").css({"display":"none"});
                 $(Yourhome).trigger('middleContentRemoved',renderdata);

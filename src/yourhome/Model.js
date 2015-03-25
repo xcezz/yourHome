@@ -37,6 +37,8 @@ Yourhome.Model = (function () {
             
             $(Yourhome).on('middleContentRemoved', function(event, data){
                 homedata[data.feature].middle = Helper.clone(data.middle);
+                homedata[data.feature].right = Helper.clone(data.right);
+                $(Yourhome).trigger('rightUpdated', _updateRenderdata());
             });
             
             $(Yourhome).on('elementStateChange', function(event, data){
@@ -54,7 +56,13 @@ Yourhome.Model = (function () {
             
             $(Yourhome).on('middleContentChanged',function(event, data){
                 _addSortOptions(data);
-                homedata[data.feature].middle.unshift(data.entry);
+                homedata[data.feature] = Helper.clone(data.renderdata);
+                if(data.feature = "calendar"){
+                    var todayevents = Helper.getTodaysEvents([data.entry]);
+                    _.each(todayevents, function(element){
+                        homedata[data.feature].right.push({"text":element.title+"<br>"+element.info+"</br>", id:element.id});
+                    });
+                }
                 if(data.feature!="infoboard" && data.feature!="calendar"){
                     var entry = Helper.clone(data.entry);
                     entry["user-name"] = document.getElementById(data.feature).innerHTML;
@@ -113,7 +121,14 @@ Yourhome.Model = (function () {
             _.each(data, function(element){
                 _.each(element.left, function(sortOption){
                     if(!sortOption.checked){
-                        data[element.feature].middle = _.difference(element.middle,_.where(element.middle, {"feature":sortOption.option}));
+                        if(data[element.feature]==="infoboard"){
+                            data[element.feature].middle = _.difference(element.middle,_.where(element.middle, {"feature":sortOption.option}));
+                        }else{
+                            var op = sortOption.option,
+                                properties = {};
+                            properties[op] = true;
+                            data[element.feature].middle = _.difference(element.middle,_.where(element.middle, properties));
+                        }
                     }
                 });
             });
