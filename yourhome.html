@@ -49,7 +49,7 @@
 </footer>
 </div>
 <div style="display:none;" id="newCalendar"> 
-    <form class="form">
+    <form id="calendarform" class="form">
         <h2><span class="update-status">Neues Ereignis</span></h2>
         <br>
         <input type="message" class="message" placeholder=" Titel" autofocus size="61" required>
@@ -60,10 +60,27 @@
         <br>
         <label>Privat? </label><input type="checkbox" name="private" value="private">
         <br>
-        <label>Von: </label><input type="date" name="start"> <input type="time" name="start2">
+        <label>Von: </label><input type="date" name="start" required> <input type="time" name="start2">
         <br>
         <label>Bis: </label><input type="date" name="end"> <input type="time" name="end2">
     	<input id="newCalendarButton" type="button" name="submit" value="Post" class="submit">
+    </form>
+</div>
+    
+<div style="display:none;" id="calendarInfo"> 
+    <form id="calendarInfoForm" class="form">
+        <h2><span class="update-status">Ereignis</span></h2>
+        <br>
+        <label> </label>
+        <br>
+        <label> </label>
+        <br><br>
+        <label> </label>
+        <br>
+        <label> </label>
+        <br>
+        <label> </label>
+        <input id="deleteCalendar" type="button" name="submit" value="Löschen" class="submit">
     </form>
 </div>
     

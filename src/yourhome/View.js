@@ -65,28 +65,19 @@ Yourhome.View = (function () {
         
         _getCalendar = function(){
             $(calendar).fullCalendar({
-                dayClick: function(date, allDay, jsEvent, view){
-                    var calendarEntry = {title:"Neuer Eintrag", start: "2015-03-24", allDay:true, info:date};
-                    console.log(date);
-                    $(calendar).fullCalendar('renderEvent', calendarEntry, true);
-                    renderdata.middle.push(calendarEntry);
-                    $(Yourhome).trigger('newCalendarEntry',{"feature":renderdata.feature,"entry":calendarEntry});
-                    $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":calendarEntry});
-                },
-    
                 eventClick: function(calEvent, jsEvent, view) {
-                    renderdata.right.push(calEvent.title+"<br>"+calEvent.info+"</br>");
-                    _renderRightBar();
+                    _showEventData(calEvent);
                 }
             });
             _.each(renderdata.middle, function(element){
-                $(calendar).fullCalendar('renderEvent', {title:element.title, start: element.start, allDay:element.allDay, info:element.info}, true);
+                $(calendar).fullCalendar('renderEvent', {id:element.id, title:element.title, start: element.start, allDay:element.allDay, info:element.info, private:element.private}, true);
             });
         },
         
         _createCalendar = function(){
             calendar = document.createElement("div");
             calendar.id = "calendarMiddle";
+            calendar.eventid = 0;
         },
         
         _renderRightBar = function(){
@@ -132,7 +123,7 @@ Yourhome.View = (function () {
             but.className = "button-newentry";
             if(renderdata.feature=="calendar"){
                 but.setAttribute("href", "#newCalendar");
-                $(but).leanModal({closeButton: "#newCalendarButton"}); 
+                $(but).leanModal(); 
                 document.getElementById("newCalendarButton").onclick = _newCalendarEntry;
             }
             but.onclick = function(){
@@ -157,12 +148,46 @@ Yourhome.View = (function () {
             var data = document.getElementById("newCalendar"),
                 calendarEntry = {};
             var inputs = $(data).find("input");
-            calendarEntry.title = inputs[0].value;
-            calendarEntry.start = inputs[4].value;
-            $(calendar).fullCalendar('renderEvent', calendarEntry, true);
-            renderdata.middle.push(calendarEntry);
-            $(Yourhome).trigger('newCalendarEntry',{"feature":renderdata.feature,"entry":calendarEntry});
-            $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":calendarEntry});
+            var submitbutton = document.getElementById('newCalendarButton');
+            submitbutton.type = "button";
+            if(document.getElementById('calendarform').checkValidity()){
+                calendarEntry.id = calendar.eventid;
+                calendar.eventid += 1;
+                calendarEntry.title = inputs[0].value;
+                calendarEntry.info = inputs[1].value;
+                calendarEntry.allDay = inputs[2].checked;                
+                calendarEntry.private = inputs[3].checked;
+                calendarEntry.start = inputs[4].value;
+                $(calendar).fullCalendar('renderEvent', calendarEntry, true);
+                renderdata.middle.push(calendarEntry);
+                $(Yourhome).trigger('newCalendarEntry',{"feature":renderdata.feature,"entry":calendarEntry});
+                $(Yourhome).trigger('middleContentChanged',{"feature":renderdata.feature,"entry":calendarEntry});
+                $("#lean_overlay").fadeOut(200);
+                $("#newCalendar").css({"display":"none"});
+            }else{
+                submitbutton.type = "submit";
+            }
+        },
+        
+        _showEventData = function(event){
+            var display = document.getElementById("calendarInfoForm");
+            var labels = $(display).find("label");
+            document.getElementById("deleteCalendar").onclick = function(){
+                $(calendar).fullCalendar('removeEvents',event.id);
+                renderdata.middle = _.without(renderdata.middle, _.findWhere(renderdata.middle, {id:event.id}));
+                $("#lean_overlay").fadeOut(200);
+                $("#calendarInfo").css({"display":"none"});
+                $(Yourhome).trigger('middleContentRemoved',renderdata);
+            }
+            labels[0].innerHTML = event.title;
+            labels[1].innerHTML = event.info;
+            if(event.allDay){
+                labels[2].innerHTML = "Ganztägig";
+            }
+            if(event.private){
+                labels[3].innerHTML = "Privat";
+            }
+            labels[4].innerHTML = event.start;
         },
             
         _submitEntry = function(){

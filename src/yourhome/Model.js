@@ -35,6 +35,10 @@ Yourhome.Model = (function () {
                 $(Yourhome).trigger('render', renderdata[data.feature]);
             });
             
+            $(Yourhome).on('middleContentRemoved', function(event, data){
+                homedata[data.feature].middle = Helper.clone(data.middle);
+            });
+            
             $(Yourhome).on('elementStateChange', function(event, data){
                 var entry = Helper.clone(data);
                 _.findWhere(homedata[entry.feature].middle,{"input-text":data["input-text"]}).done = data.done;
@@ -50,7 +54,6 @@ Yourhome.Model = (function () {
             
             $(Yourhome).on('middleContentChanged',function(event, data){
                 _addSortOptions(data);
-                console.log(data.entry);
                 homedata[data.feature].middle.unshift(data.entry);
                 if(data.feature!="infoboard" && data.feature!="calendar"){
                     var entry = Helper.clone(data.entry);

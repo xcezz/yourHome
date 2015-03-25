@@ -4752,7 +4752,9 @@ DayGrid.mixin({
 					emptyCellsUntil(seg.leftCol);
 
 					// create a container that occupies or more columns. append the event element.
-					td = $('<td class="fc-event-container"/>').append(seg.el);
+					td = $('<td class="fc-event-container" href="#calendarInfo"/>').append(seg.el); 
+                    // @changedhere td = $('<td class="fc-event-container"/>').append(seg.el);
+                    td.leanModal(); // @changedhere ---
 					if (seg.leftCol != seg.rightCol) {
 						td.attr('colspan', seg.rightCol - seg.leftCol + 1);
 					}
