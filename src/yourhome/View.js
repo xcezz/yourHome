@@ -128,7 +128,7 @@ Yourhome.View = (function () {
             var but = document.createElement("button");
             but.innerHTML = "Neuer Eintrag";
             but.className = "button-newentry";
-            if(renderdata.feature=="calendar"){
+            if(renderdata.feature === "calendar"){
                 but.setAttribute("href", "#newCalendar");
                 $(but).leanModal(); 
                 document.getElementById("newCalendarButton").onclick = _newCalendarEntry;
@@ -202,15 +202,13 @@ Yourhome.View = (function () {
         _submitEntry = function(){
             document.getElementById('submitButton').type = "button";
             if(document.getElementById('submitForm').checkValidity()){
-                var TESTIMG = new Image(),
-                    today = Helper.today(),
+                var today = Helper.today(),
                     input;
                 input = middle.find(".message")[0];
-                TESTIMG.src = "res/assets/" + renderdata.feature + ".png";
                 if(renderdata.feature === "account"){
                     input =  document.getElementById('rechnung').value + ": " + document.getElementById('von').value + " an " + document.getElementById('an').value + " " + document.getElementById('betrag').value + "€";
                     var entry = {"feature":renderdata.feature,
-                            "user-img":TESTIMG.src,
+                            "user-img":renderdata.feature,
                             "input-text":input,
                             "user-name":"Muster Maxmann",
                             "date": today,
@@ -218,7 +216,7 @@ Yourhome.View = (function () {
                             };
                 }else{
                 var entry = {"feature":renderdata.feature,
-                            "user-img":TESTIMG.src,
+                            "user-img":renderdata.feature,
                             "input-text":input.value,
                             "user-name":"Muster Maxmann",
                             "date": today,

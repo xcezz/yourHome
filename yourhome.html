@@ -93,7 +93,7 @@
     
     <script id="infoboardTemplate" type="text/template">
         <form class="form">
-                <img src=<%= imgSrc %> alt="Placeholder" class="userimage">
+                <img src="res/assets/<%= imgSrc %>.png" alt="Placeholder" class="userimage">
                 <p><span class="userinput"><%= inputText %></span></p>
                 <br>
 				<h1><span class="username"><%= inputUser %></span> <span class="post-date"><%= inputDate %></span></h1>
@@ -142,6 +142,8 @@
         </form>
     </script>
     
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="libs/jquery.leanModal.min.js"></script>
     <script src="libs/moment.min.js"></script>
     <script src="libs/fullcalendar.js"></script>

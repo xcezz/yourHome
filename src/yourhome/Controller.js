@@ -1,5 +1,7 @@
 Yourhome.Controller = (function () {
     var that = {},
+        SERVER = "http://192.168.2.103:3000",
+        server,
         infoboard,
         calendar,
         account,
@@ -7,6 +9,7 @@ Yourhome.Controller = (function () {
         tasks,
 
         init = function () {
+            _initServerConnection();
             infoboard = document.getElementById("infoboard");
             calendar = document.getElementById("calendar");
             account = document.getElementById("account");
@@ -16,7 +19,21 @@ Yourhome.Controller = (function () {
             return that;
         },
         
+        _initServerConnection = function () {
+            server = io.connect(SERVER);
+            server.on('updateData', _updateData);
+            console.log(server);
+        },
+        
+        _updateData = function(data){
+            $(Yourhome).trigger('homedataUpdated', data);
+        },
+        
         _initEvents = function(){
+            $(Yourhome).on('serverupdate', function(event, data){
+                server.emit('newData', data.homedata);
+            });
+            
             infoboard.onclick = function(){
                 $(Yourhome).trigger('featureClicked',{"feature":"infoboard"});
             };

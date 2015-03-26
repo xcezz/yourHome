@@ -1,5 +1,6 @@
 Yourhome.Model = (function () {
     var that = {},
+        activeFeature = "infoboard",
         infoboard,
         calendar,
         account,
@@ -30,9 +31,16 @@ Yourhome.Model = (function () {
         },
         
         _initEvents = function(){
+            $(Yourhome).on('homedataUpdated', function(event, data){
+                console.log(data.homedata);
+                homedata = data.homedata;
+                $(Yourhome).trigger('render', _updateRenderdata()[activeFeature]);
+            });
+            
             $(Yourhome).on('featureClicked', function(event, data){
                 renderdata = _updateRenderdata();
                 $(Yourhome).trigger('render', renderdata[data.feature]);
+                activeFeature = data.feature;
             });
             
             $(Yourhome).on('middleContentRemoved', function(event, data){
@@ -56,8 +64,8 @@ Yourhome.Model = (function () {
             
             $(Yourhome).on('middleContentChanged',function(event, data){
                 _addSortOptions(data);
-                homedata[data.feature] = Helper.clone(data.renderdata);
-                if(data.feature = "calendar"){
+                homedata[data.feature].middle.unshift(data.entry);
+                if(data.feature === "calendar"){
                     var todayevents = Helper.getTodaysEvents([data.entry]);
                     _.each(todayevents, function(element){
                         homedata[data.feature].right.push({"text":element.title+"<br>"+element.info+"</br>", id:element.id});
@@ -70,14 +78,13 @@ Yourhome.Model = (function () {
                 }
                 renderdata = _updateRenderdata();
                 $(Yourhome).trigger('render', renderdata[data.feature]);
+                $(Yourhome).trigger('serverupdate', {homedata:homedata});
             });
             
             $(Yourhome).on('newCalendarEntry',function(event, data){
-                var TESTIMG = new Image();
-                TESTIMG.src = "res/assets/calendar.png";
                 var infoboardEntry = {
                         "feature":data.feature,
-                        "user-img":TESTIMG.src,
+                        "user-img":"calendar",
                         "input-text":data.entry.title + new Date(data.entry.start),
                         "user-name":"Kalender Eintrag",
                         "date": Helper.today()};
