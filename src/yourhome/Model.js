@@ -128,7 +128,7 @@ Yourhome.Model = (function () {
             _.each(data, function(element){
                 _.each(element.left, function(sortOption){
                     if(!sortOption.checked){
-                        if(data[element.feature]==="infoboard"){
+                        if(data[element.feature].feature==="infoboard"){
                             data[element.feature].middle = _.difference(element.middle,_.where(element.middle, {"feature":sortOption.option}));
                         }else{
                             var op = sortOption.option,
